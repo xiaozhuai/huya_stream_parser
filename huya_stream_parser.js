@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         获取虎牙直播流地址，可直接使用VLC播放器播放
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  获取虎牙直播流地址，可直接使用VLC播放器播放，在VLC内选择Open Network，粘贴地址打开即可
 // @author       xiaozhuai
 // @include      http://www.huya.com/*
@@ -14,7 +14,9 @@
 //     绝地求生4AM队长，前英雄联盟LPL总冠军获得者。
 //     2018 PUBG China Pro Invitation (PCPI) TPP模式冠军获得者。
 //     4AM兄弟齐心，一千多斤！
+// 韦神直播间地址：
 // https://www.huya.com/godv
+
 (function() {
     'use strict';
     function heredoc(fn) {
