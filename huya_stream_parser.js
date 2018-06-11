@@ -9,6 +9,12 @@
 // @grant        none
 // ==/UserScript==
 
+// 本人是韦神大叔粉，请大家支持韦神。
+// 韦神资料：
+//     绝地求生4AM队长，前英雄联盟LPL总冠军获得者。
+//     2018 PUBG China Pro Invitation (PCPI) TPP模式冠军获得者。
+//     4AM兄弟齐心，一千多斤！
+// https://www.huya.com/godv
 (function() {
     'use strict';
     function heredoc(fn) {
