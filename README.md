@@ -6,7 +6,7 @@
 
 在[https://greasyfork.org/](https://greasyfork.org/)内搜索`获取虎牙直播流地址`，安装即可。
 
-![](install.jpg)
+![](install.png)
 
 # 预览
 
