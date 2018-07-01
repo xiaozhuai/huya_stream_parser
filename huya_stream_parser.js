@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         获取虎牙直播流地址，可直接使用VLC播放器播放
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  获取虎牙直播流地址，可直接使用VLC播放器播放，在VLC内选择Open Network，粘贴地址打开即可
 // @author       xiaozhuai
 // @include      http://www.huya.com/*
@@ -94,6 +94,7 @@
     position: fixed;
     z-index: 1000000;
     border-radius: 4px;
+    border: 1px solid #cccccc;
 }
 #flv-url-box-btn:hover{
     box-shadow: 0 0 8px #0ca4d4;
