@@ -24,12 +24,6 @@
     }
 
     var boxHtml = '';
-  
-    var cdnNameMap = {
-        "AL": "阿里云",
-        "TX": "腾讯云",
-        "BD": "百度云",
-    }
 
     if(window.TT_ROOM_DATA.state==='OFF'){
         boxHtml = '状态: 未开播<br>';
@@ -46,7 +40,6 @@
                 console.log(streamInfo);
                 
                 var lineNumber = streamInfo.iLineIndex;
-                var cdnName = cdnNameMap[streamInfo.sCdnType];
                 var url = streamInfo.sFlvUrl + '/' + streamInfo.sStreamName + '.' + streamInfo.sFlvUrlSuffix + '?' + streamInfo.sFlvAntiCode;
                 var ratioList = window.hyPlayerConfig.stream.vMultiStreamInfo;
 
@@ -57,7 +50,7 @@
                         absUrl = url+"&ratio="+ratioList[i].iBitRate;
                     }
                     data.push({
-                        label: '('+cdnName +' 线路'+lineNumber+') '+label,
+                        label: '(线路'+lineNumber+') '+label,
                         url: absUrl,
                     });
                 }
@@ -169,7 +162,7 @@
     user-select: none;
     text-align: left;
     padding-left: 12px;
-    width: 148px;
+    width: 100px;
     font-size: 12px;
     line-height: 24px;
     height: 24px;
