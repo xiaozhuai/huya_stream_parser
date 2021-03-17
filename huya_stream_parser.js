@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         获取虎牙直播流地址，可直接使用VLC播放器播放
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  获取虎牙直播流地址，可直接使用VLC播放器播放，在VLC内选择Open Network，粘贴地址打开即可
 // @author       xiaozhuai
 // @include      http://www.huya.com/*
@@ -24,6 +24,12 @@
     }
 
     var boxHtml = '';
+  
+    var cdnNameMap = {
+        "AL": "阿里云",
+        "TX": "腾讯云",
+        "BD": "百度云",
+    }
 
     if(window.TT_ROOM_DATA.state==='OFF'){
         boxHtml = '状态: 未开播<br>';
@@ -33,22 +39,34 @@
         boxHtml = '状态: 正在直播<br>';
         try{
             var streamInfoList = window.hyPlayerConfig.stream.data[0].gameStreamInfoList;
-            var streamInfo = null;
-            for(var i=0; i<streamInfoList.length; i++){
-                console.log(streamInfoList[i]);
-                if(streamInfoList[i].sCdnType==='AL') streamInfo = streamInfoList[i];
-            }
-            var url = streamInfo.sFlvUrl + '/' + streamInfo.sStreamName + '.' + streamInfo.sFlvUrlSuffix + '?' + streamInfo.sFlvAntiCode;
-            var ratioList = window.hyPlayerConfig.stream.vMultiStreamInfo;
+            var data = [];
+          
+            for(var line=0; line<streamInfoList.length; line++){
+                var streamInfo = streamInfoList[line];
+                console.log(streamInfo);
+                
+                var lineNumber = streamInfo.iLineIndex;
+                var cdnName = cdnNameMap[streamInfo.sCdnType];
+                var url = streamInfo.sFlvUrl + '/' + streamInfo.sStreamName + '.' + streamInfo.sFlvUrlSuffix + '?' + streamInfo.sFlvAntiCode;
+                var ratioList = window.hyPlayerConfig.stream.vMultiStreamInfo;
 
-            for(i=0; i<ratioList.length; i++){
-                var label = ratioList[i].sDisplayName;
-                var absUrl = url;
-                if(ratioList[i].iBitRate != 0){
-                    absUrl = url+"&ratio="+ratioList[i].iBitRate;
+                for(var i=0; i<ratioList.length; i++){
+                    var label = ratioList[i].sDisplayName;
+                    var absUrl = url;
+                    if(ratioList[i].iBitRate != 0){
+                        absUrl = url+"&ratio="+ratioList[i].iBitRate;
+                    }
+                    data.push({
+                        label: '('+cdnName +' 线路'+lineNumber+') '+label,
+                        url: absUrl,
+                    });
                 }
-                boxHtml += '<div class="flv-url-item"><label>'+label+'</label><input id="flv-url-'+i+'" value="'+absUrl+'"/><a onclick="copyFlvUrl('+i+')">复制</a></div>'; //<a onclick="openFlvUrl('+i+')">VLC播放</a>
             }
+          
+            for(var i=0; i<data.length; i++) {
+                boxHtml += '<div class="flv-url-item"><label>'+data[i].label+'</label><input id="flv-url-'+i+'" value="'+data[i].url+'"/><a onclick="copyFlvUrl('+i+')">复制</a></div>'; //<a onclick="openFlvUrl('+i+')">VLC播放</a>
+            }
+            
         }catch(e){
             boxHtml += '解析流数据错误';
             console.error(e);
@@ -127,8 +145,8 @@
     border-bottom-right-radius: 6px;
 }
 #flv-url-box .flv-url-item input{
-    top 0;
-    width: 180px;
+    top: 0;
+    width: 240px;
     height: 24px;
     padding: 0 4px;
 }
@@ -149,8 +167,9 @@
 }
 #flv-url-box .flv-url-item label{
     user-select: none;
-    text-align: center;
-    width: 60px;
+    text-align: left;
+    padding-left: 12px;
+    width: 148px;
     font-size: 12px;
     line-height: 24px;
     height: 24px;
